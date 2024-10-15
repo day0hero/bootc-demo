@@ -8,6 +8,7 @@ Bootable Container demo where we build a container image and then use it as a di
 1. create the image using podman/buildah
 1. convert the image to a disk format 
 1. deploy a virtual machine using the disk image
+1. create disk image using kickstart and lvm configured
 1. test/profit
 
 
@@ -64,3 +65,15 @@ Omitting `--local` and `-v /var/lib/containers/storage` options will require the
 
 
 Fedora/CentOS bootc-image-builder [bootc-image-builder](https://github.com/osbuild/bootc-image-builder)
+
+podman-bootc CLI for Fedora40: 
+
+`sudo dnf -y install 'dnf-command(copr)'`
+
+`sudo dnf -y copr enable gmaglione/podman-bootc`
+
+`sudo dnf install -y podman-bootc`
+
+### Resources
+- Fedora podman-bootc Docs: https://github.com/containers/podman-bootc
+- Fedora bootc Docs: https://docs.fedoraproject.org/en-US/bootc/
