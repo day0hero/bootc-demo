@@ -3,3 +3,12 @@ name = "user"
 password = "pass"
 key = "ssh-ed25519 AAA email@fedora.example.com"
 groups = ["wheel"]
+
+[[customizations.filesystem]]
+mountpoint = "/"
+minsize = "10GiB"
+
+[[customizations.filesystem]]
+mountpoint = "/var/data"
+minsize = "5GiB"
+
