@@ -4,10 +4,14 @@ FROM quay.io/centos-bootc/centos-bootc-dev:stream9
 # we have /var as a machine-local mount by default.  Because this content
 # should be read-only (at runtime) and versioned with the container image,
 # we move it to /usr/share/www instead.
-RUN dnf -y install httpd && \
+
+RUN dnf -y install httpd cloud-init && \
     systemctl enable httpd && \
     mv /var/www /usr/share/www && \
-    sed -ie 's,/var/www,/usr/share/www,' /etc/httpd/conf/httpd.conf
+    sed -ie 's,/var/www,/usr/share/www,' /etc/httpd/conf/httpd.conf && \
+    ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants && \
+    dnf clean all
+    
 # Further, we also disable the default index.html which includes the operating
 # system information (bad idea from a fingerprinting perspective), and crucially
 # we inject our own content as part of the container image build.

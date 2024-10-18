@@ -1,4 +1,4 @@
-[[blueprint.customizations.user]]
+[[customizations.user]]
 name = "user"
 password = "pass"
 key = "ssh-ed25519 AAA email@fedora.example.com"
