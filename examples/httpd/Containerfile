@@ -1,0 +1,20 @@
+# Run a stock apache webserver
+FROM quay.io/centos-bootc/centos-bootc-dev:stream9
+# The default package drops content in /var/www, and on bootc systems
+# we have /var as a machine-local mount by default.  Because this content
+# should be read-only (at runtime) and versioned with the container image,
+# we move it to /usr/share/www instead.
+RUN dnf -y install httpd && \
+    systemctl enable httpd && \
+    mv /var/www /usr/share/www && \
+    sed -ie 's,/var/www,/usr/share/www,' /etc/httpd/conf/httpd.conf
+# Further, we also disable the default index.html which includes the operating
+# system information (bad idea from a fingerprinting perspective), and crucially
+# we inject our own content as part of the container image build.
+# This is a key point: In this model, the webserver content is lifecycled exactly
+# with the container image build, and you can change it "day 2" by updating
+# the image.  The content is underneath the /usr readonly bind mount - it
+# should not be mutated per machine.
+RUN rm /usr/share/httpd/noindex -rf
+COPY index.html /usr/share/www/html
+EXPOSE 80
